@@ -1,4 +1,4 @@
-package sample;
+package sample.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,12 +13,12 @@ import java.io.File;
 
 
 public class OptionView {
-    HBox hBox;
-    Button add;
-    Button find;
-    Button delete;
-    MenuItem fileSave;
-    MenuItem fileOpen;
+    private HBox hBox;
+    private Button add;
+    private  Button find;
+    private Button delete;
+    private MenuItem fileSave;
+    private MenuItem fileOpen;
 
     public OptionView() {
         hBox = new HBox();
@@ -35,26 +35,24 @@ public class OptionView {
         hBox.getChildren().add(delete);
     }
 
-    void setOnAddButton(EventHandler<ActionEvent> event) {
+    public void setOnAddButton(EventHandler<ActionEvent> event) {
         add.setOnAction(event);
     }
 
-    void setOnFindButton(EventHandler<ActionEvent> event) {
+    public void setOnFindButton(EventHandler<ActionEvent> event) {
         find.setOnAction(event);
     }
 
-    void setOnDeleteButton(EventHandler<ActionEvent> event) {
+    public void setOnDeleteButton(EventHandler<ActionEvent> event) {
         delete.setOnAction(event);
     }
 
 
-
-
-    void setOnOpenFile(EventHandler<ActionEvent> eventHandler) {
+    public void setOnOpenFile(EventHandler<ActionEvent> eventHandler) {
         fileOpen.setOnAction(eventHandler);
     }
 
-    void setOnSaveFile(EventHandler<ActionEvent> eventHandler) {
+    public void setOnSaveFile(EventHandler<ActionEvent> eventHandler) {
         fileSave.setOnAction(eventHandler);
     }
 

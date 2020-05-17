@@ -1,4 +1,4 @@
-package sample;
+package sample.view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,19 +10,20 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import sample.model.SearchInfo;
 
 public class SearchView {
-    ComboBox<String> comboBox;
-    ComboBox<String> skipType;
-    VBox vbox;
-    Button submit;
-    Label nameLabel;
-    Label groupLabel;
-    TextField nameField;
-    TextField groupField;
+    private ComboBox<String> comboBox;
+    private ComboBox<String> skipType;
+    private VBox vbox;
+    private Button submit;
+    private Label nameLabel;
+    private Label groupLabel;
+    private TextField nameField;
+    private TextField groupField;
 
-    TextField lowAmount;
-    TextField highAmount;
+    private TextField lowAmount;
+    private TextField highAmount;
 
     public SearchView() {
         this(new Button("Search"));

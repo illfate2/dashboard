@@ -1,4 +1,4 @@
-package sample;
+package sample.model;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

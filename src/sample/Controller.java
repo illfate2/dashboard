@@ -10,6 +10,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
+import sample.model.*;
+import sample.view.DeleteInfoView;
+import sample.view.InfoView;
+import sample.view.SearchView;
+import sample.view.View;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -44,24 +49,18 @@ public class Controller {
             Stage stage = new Stage();
             VBox vbox = new VBox();
             DeleteInfoView searchView = new DeleteInfoView();
-            vbox.getChildren().add(searchView.view.getComboBox());
+            vbox.getChildren().add(searchView.getView().getComboBox());
             Scene scene = new Scene(vbox, 700, 400);
             Label label = new Label("Deleted: -");
             vbox.getChildren().add(label);
             stage.setScene(scene);
             stage.show();
-            searchView.view.setOnSearch(actionEvent1 -> {
-                SearchInfo info = searchView.view.getSearchInfo();
+            searchView.getView().setOnSearch(actionEvent1 -> {
+                SearchInfo info = searchView.getView().getSearchInfo();
                 ArrayList<StudentInfo> infos = model.getStudentInfos();
                 int counter = 0;
                 if (info.group != null) {
-                    for (Iterator<StudentInfo> it = infos.iterator(); it.hasNext(); ) {
-                        StudentInfo student = it.next();
-                        if (student.getName().equals(info.name) && student.getGroup().equals(info.group)) {
-                            it.remove();
-                            counter++;
-                        }
-                    }
+                    counter = model.removeByNameAndGroup(info.name, info.group);
                 } else if (info.lowAmountOfSkip != null && info.highAmountOfSkip != null) {
                     for (Iterator<StudentInfo> it = infos.iterator(); it.hasNext(); ) {
                         StudentInfo student = it.next();
@@ -73,31 +72,7 @@ public class Controller {
                         }
                     }
                 } else if (!info.typeOfSkip.isEmpty()) {
-                    for (Iterator<StudentInfo> it = infos.iterator(); it.hasNext(); ) {
-                        StudentInfo student = it.next();
-                        if (student.getName().equals(info.name)) {
-                            switch (info.typeOfSkip) {
-                                case "illness":
-                                    if (student.getByIllness() > 0) {
-                                        it.remove();
-                                        counter++;
-                                    }
-                                    break;
-                                case "without reason":
-                                    if (student.getWithoutReason() > 0) {
-                                        it.remove();
-                                        counter++;
-                                    }
-                                    break;
-                                case "another reason":
-                                    if (student.getAnotherReason() > 0) {
-                                        it.remove();
-                                        counter++;
-                                    }
-                                    break;
-                            }
-                        }
-                    }
+                    counter = model.removeByNameAndTypeOfSkip(info.name, info.typeOfSkip);
                 }
                 label.setText("Deleted: " + counter);
                 renderTable();
@@ -163,7 +138,7 @@ public class Controller {
             });
         });
 
-        view.optionView.setOnOpenFile(actionEvent -> {
+        view.getOptionView().setOnOpenFile(actionEvent -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("XML", "*.xml")
@@ -178,7 +153,7 @@ public class Controller {
             }
         });
 
-        view.optionView.setOnSaveFile(actionEvent -> {
+        view.getOptionView().setOnSaveFile(actionEvent -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
                     new FileChooser.ExtensionFilter("XML", "*.xml")
@@ -193,11 +168,12 @@ public class Controller {
             }
         });
 
-        view.tableWithPagination.setRender(actionEvent -> renderTable());
+        view.getTableWithPagination().setRender(actionEvent -> renderTable());
 
     }
 
-    public ArrayList<StudentInfo> getTableDataFromFile(File file) throws ParserConfigurationException, SAXException,
+    public ArrayList<StudentInfo> getTableDataFromFile(File file) throws
+            ParserConfigurationException, SAXException,
             IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
 
@@ -208,17 +184,18 @@ public class Controller {
     }
 
     private void renderTable() {
-        Integer size = view.tableWithPagination.paginationView.getComboBoxSize();
-        Integer currentPage = view.tableWithPagination.paginationView.getCurrentPage();
+        Integer size = view.getTableWithPagination().paginationView.getComboBoxSize();
+        Integer currentPage = view.getTableWithPagination().paginationView.getCurrentPage();
         Integer pageNumber = roundUp(model.getStudentInfos().size(), size);
-        view.tableWithPagination.paginationView.setPagination(pageNumber);
+        view.getTableWithPagination().paginationView.setPagination(pageNumber);
         ObservableList<StudentInfo> studentList = FXCollections.observableArrayList(model.getStudentInfos(size, size * currentPage));
-        view.tableWithPagination.setInfo(studentList);
-        view.tableWithPagination.paginationView.renderLabel();
-        view.tableWithPagination.paginationView.renderInfoLabel(studentList.size(), model.getStudentInfos().size());
+        view.getTableWithPagination().setInfo(studentList);
+        view.getTableWithPagination().paginationView.renderLabel();
+        view.getTableWithPagination().paginationView.renderInfoLabel(studentList.size(), model.getStudentInfos().size());
     }
 
-    private void renderSpecificTable(ArrayList<StudentInfo> studentInfos, TableWithPagination tableWithPagination) {
+    private void renderSpecificTable(ArrayList<StudentInfo> studentInfos, TableWithPagination
+            tableWithPagination) {
         Integer size = tableWithPagination.paginationView.getComboBoxSize();
         Integer currentPage = tableWithPagination.paginationView.getCurrentPage();
         Integer pageNumber = roundUp(studentInfos.size(), size);

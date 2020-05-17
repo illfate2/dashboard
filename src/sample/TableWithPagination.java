@@ -5,8 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import sample.model.StudentInfo;
+import sample.view.PaginationView;
+import sample.view.Table;
 
 
 public class TableWithPagination {

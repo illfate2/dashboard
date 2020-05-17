@@ -1,23 +1,18 @@
-package sample;
+package sample.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import javax.swing.text.TabableView;
-import java.util.ArrayList;
+import sample.TableWithPagination;
+import sample.view.OptionView;
+import sample.view.PaginationView;
+import sample.view.Table;
 
 public class View {
-    Group root;
-    OptionView optionView;
-    TableWithPagination tableWithPagination;
+    private Group root;
+    private OptionView optionView;
+    private TableWithPagination tableWithPagination;
 
     public View() {
         root = new Group();
@@ -40,5 +35,9 @@ public class View {
 
     public Group getRoot() {
         return root;
+    }
+
+    public TableWithPagination getTableWithPagination() {
+        return tableWithPagination;
     }
 }
