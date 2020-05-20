@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Controller {
-    View view;
-    Model model;
+    private View view;
+    private Model model;
 
     public Controller(View view) {
         this.view = view;
@@ -184,26 +184,26 @@ public class Controller {
     }
 
     private void renderTable() {
-        Integer size = view.getTableWithPagination().paginationView.getComboBoxSize();
-        Integer currentPage = view.getTableWithPagination().paginationView.getCurrentPage();
+        Integer size = view.getTableWithPagination().getPaginationView().getComboBoxSize();
+        Integer currentPage = view.getTableWithPagination().getPaginationView().getCurrentPage();
         Integer pageNumber = roundUp(model.getStudentInfos().size(), size);
-        view.getTableWithPagination().paginationView.setPagination(pageNumber);
+        view.getTableWithPagination().getPaginationView().setPagination(pageNumber);
         ObservableList<StudentInfo> studentList = FXCollections.observableArrayList(model.getStudentInfos(size, size * currentPage));
         view.getTableWithPagination().setInfo(studentList);
-        view.getTableWithPagination().paginationView.renderLabel();
-        view.getTableWithPagination().paginationView.renderInfoLabel(studentList.size(), model.getStudentInfos().size());
+        view.getTableWithPagination().getPaginationView().renderLabel();
+        view.getTableWithPagination().getPaginationView().renderInfoLabel(studentList.size(), model.getStudentInfos().size());
     }
 
     private void renderSpecificTable(ArrayList<StudentInfo> studentInfos, TableWithPagination
             tableWithPagination) {
-        Integer size = tableWithPagination.paginationView.getComboBoxSize();
-        Integer currentPage = tableWithPagination.paginationView.getCurrentPage();
+        Integer size = tableWithPagination.getPaginationView().getComboBoxSize();
+        Integer currentPage = tableWithPagination.getPaginationView().getCurrentPage();
         Integer pageNumber = roundUp(studentInfos.size(), size);
-        tableWithPagination.paginationView.setPagination(pageNumber);
+        tableWithPagination.getPaginationView().setPagination(pageNumber);
         ObservableList<StudentInfo> studentList = FXCollections.observableArrayList(studentInfos);
         tableWithPagination.setInfo(studentList);
-        tableWithPagination.paginationView.renderLabel();
-        tableWithPagination.paginationView.renderInfoLabel(studentList.size(), studentInfos.size());
+        tableWithPagination.getPaginationView().renderLabel();
+        tableWithPagination.getPaginationView().renderInfoLabel(studentList.size(), studentInfos.size());
     }
 
     private static Integer roundUp(Integer num, Integer divisor) {

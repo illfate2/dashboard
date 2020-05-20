@@ -12,8 +12,8 @@ import sample.view.Table;
 
 
 public class TableWithPagination {
-    Table table;
-    PaginationView paginationView;
+    private Table table;
+    private PaginationView paginationView;
     private VBox vBox;
 
     public TableWithPagination(Table table, PaginationView paginationView) {
@@ -54,4 +54,7 @@ public class TableWithPagination {
         this.table.setInfo(infos);
     }
 
+    public PaginationView getPaginationView() {
+        return paginationView;
+    }
 }
