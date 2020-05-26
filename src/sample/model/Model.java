@@ -1,48 +1,49 @@
 package sample.model;
 
+import sample.view.StudentInfoView;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Model {
-    private ArrayList<StudentInfo> studentInfos;
+    private List<StudentInfo> studentInfoViews;
 
     public Model() {
-        studentInfos = new ArrayList<>();
+        studentInfoViews = new ArrayList<>();
     }
 
     public void addStudentInfos(StudentInfo info) {
-        studentInfos.add(info);
-        System.out.println(studentInfos.size());
+        studentInfoViews.add(info);
+        System.out.println(studentInfoViews.size());
     }
 
-    public ArrayList<StudentInfo> getStudentInfos() {
-        System.out.println(studentInfos.size());
-        return studentInfos;
+    public List<StudentInfo> getStudentInfoViews() {
+        return studentInfoViews;
     }
 
     public List<StudentInfo> getStudentInfos(int limit, int offset) {
-        if ((limit + offset) < studentInfos.size()) {
-            return studentInfos.subList(offset, offset + limit);
+        if ((limit + offset) < studentInfoViews.size()) {
+            return studentInfoViews.subList(offset, offset + limit);
         }
-        if (studentInfos.size() == 0) {
-            return studentInfos;
+        if (studentInfoViews.size() == 0) {
+            return studentInfoViews;
         }
-        if (offset < studentInfos.size()) {
-            return studentInfos.subList(offset, studentInfos.size());
+        if (offset < studentInfoViews.size()) {
+            return studentInfoViews.subList(offset, studentInfoViews.size());
         }
-        return studentInfos.subList(studentInfos.size() - 1, studentInfos.size() - 1);
+        return studentInfoViews.subList(studentInfoViews.size() - 1, studentInfoViews.size() - 1);
     }
 
-    public void setStudentInfos(ArrayList<StudentInfo> studentInfos) {
-        this.studentInfos = studentInfos;
-        System.out.println(studentInfos.size());
+    public void setStudentInfoViews(ArrayList<StudentInfo> studentInfoViews) {
+        this.studentInfoViews = studentInfoViews;
+        System.out.println(studentInfoViews.size());
 
     }
 
     public Integer removeByNameAndGroup(String name, Integer group) {
         int counter = 0;
-        for (Iterator<StudentInfo> it = studentInfos.iterator(); it.hasNext(); ) {
+        for (Iterator<StudentInfo> it = studentInfoViews.iterator(); it.hasNext(); ) {
             StudentInfo student = it.next();
             if (student.getName().equals(name) && student.getGroup().equals(group)) {
                 it.remove();
@@ -54,7 +55,7 @@ public class Model {
 
     public Integer removeByNameAndTypeOfSkip(String name, String typeOfSkip) {
         int counter = 0;
-        for (Iterator<StudentInfo> it = studentInfos.iterator(); it.hasNext(); ) {
+        for (Iterator<StudentInfo> it = studentInfoViews.iterator(); it.hasNext(); ) {
             StudentInfo student = it.next();
             if (student.getName().equals(name)) {
                 switch (typeOfSkip) {

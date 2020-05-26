@@ -3,6 +3,7 @@ package sample.model;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import sample.view.StudentInfoView;
 
 import java.util.ArrayList;
 

@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import sample.model.StudentInfo;
+import sample.view.StudentInfoView;
 import sample.view.PaginationView;
 import sample.view.Table;
 

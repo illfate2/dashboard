@@ -2,6 +2,7 @@ package sample.model;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import sample.view.StudentInfoView;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,11 +13,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DOMParser {
 
-    public void parse(ArrayList<StudentInfo> tableData, File file) throws ParserConfigurationException, TransformerException {
+    public void parse(List<StudentInfo> tableData, File file) throws ParserConfigurationException, TransformerException {
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

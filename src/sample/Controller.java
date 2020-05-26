@@ -11,10 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
 import sample.model.*;
-import sample.view.DeleteInfoView;
-import sample.view.InfoView;
-import sample.view.SearchView;
-import sample.view.View;
+import sample.view.*;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
@@ -23,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Controller {
     private View view;
@@ -57,7 +55,7 @@ public class Controller {
             stage.show();
             searchView.getView().setOnSearch(actionEvent1 -> {
                 SearchInfo info = searchView.getView().getSearchInfo();
-                ArrayList<StudentInfo> infos = model.getStudentInfos();
+                List<StudentInfo> infos = model.getStudentInfoViews();
                 int counter = 0;
                 if (info.group != null) {
                     counter = model.removeByNameAndGroup(info.name, info.group);
@@ -91,7 +89,7 @@ public class Controller {
             stage.show();
             searchView.setOnSearch(actionEvent1 -> {
                 SearchInfo info = searchView.getSearchInfo();
-                ArrayList<StudentInfo> infos = model.getStudentInfos();
+                List<StudentInfo> infos = model.getStudentInfoViews();
                 ArrayList<StudentInfo> result = new ArrayList<>();
                 if (info.group != null) {
                     for (StudentInfo student :
@@ -146,7 +144,7 @@ public class Controller {
             File selectedFile = fileChooser.showOpenDialog(null);
             try {
                 var info = getTableDataFromFile(selectedFile);
-                model.setStudentInfos(info);
+                model.setStudentInfoViews(info);
                 renderTable();
             } catch (ParserConfigurationException | SAXException | IOException e) {
                 e.printStackTrace();
@@ -159,7 +157,7 @@ public class Controller {
                     new FileChooser.ExtensionFilter("XML", "*.xml")
             );
             File selectedFile = fileChooser.showSaveDialog(null);
-            var infos = model.getStudentInfos();
+            var infos = model.getStudentInfoViews();
             DOMParser parser = new DOMParser();
             try {
                 parser.parse(infos, selectedFile);
@@ -186,24 +184,24 @@ public class Controller {
     private void renderTable() {
         Integer size = view.getTableWithPagination().getPaginationView().getComboBoxSize();
         Integer currentPage = view.getTableWithPagination().getPaginationView().getCurrentPage();
-        Integer pageNumber = roundUp(model.getStudentInfos().size(), size);
+        Integer pageNumber = roundUp(model.getStudentInfoViews().size(), size);
         view.getTableWithPagination().getPaginationView().setPagination(pageNumber);
-        ObservableList<StudentInfo> studentList = FXCollections.observableArrayList(model.getStudentInfos(size, size * currentPage));
-        view.getTableWithPagination().setInfo(studentList);
+        List<StudentInfo> studentList = model.getStudentInfos(size, size * currentPage);
+        view.getTableWithPagination().setInfo(FXCollections.observableArrayList(studentList));
         view.getTableWithPagination().getPaginationView().renderLabel();
-        view.getTableWithPagination().getPaginationView().renderInfoLabel(studentList.size(), model.getStudentInfos().size());
+        view.getTableWithPagination().getPaginationView().renderInfoLabel(studentList.size(), model.getStudentInfoViews().size());
     }
 
-    private void renderSpecificTable(ArrayList<StudentInfo> studentInfos, TableWithPagination
+    private void renderSpecificTable(ArrayList<StudentInfo> studentInfoViews, TableWithPagination
             tableWithPagination) {
         Integer size = tableWithPagination.getPaginationView().getComboBoxSize();
         Integer currentPage = tableWithPagination.getPaginationView().getCurrentPage();
-        Integer pageNumber = roundUp(studentInfos.size(), size);
+        Integer pageNumber = roundUp(studentInfoViews.size(), size);
         tableWithPagination.getPaginationView().setPagination(pageNumber);
-        ObservableList<StudentInfo> studentList = FXCollections.observableArrayList(studentInfos);
+        ObservableList<StudentInfo> studentList = FXCollections.observableArrayList(studentInfoViews);
         tableWithPagination.setInfo(studentList);
         tableWithPagination.getPaginationView().renderLabel();
-        tableWithPagination.getPaginationView().renderInfoLabel(studentList.size(), studentInfos.size());
+        tableWithPagination.getPaginationView().renderInfoLabel(studentList.size(), studentInfoViews.size());
     }
 
     private static Integer roundUp(Integer num, Integer divisor) {
